@@ -1,0 +1,5 @@
+int16 width
+int16 height
+string data
+---
+string make_pattern_response

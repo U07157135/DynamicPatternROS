@@ -1,0 +1,42 @@
+version: "3.8"
+services:
+  controlpattern:
+    build: control_node/
+    container_name: control_node
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Asia/Taipei
+    ports:
+      - 5655:3389
+    shm_size: "1gb"
+    restart: unless-stopped
+    networks:
+      - ros
+      
+  makepattern:
+    build: make_node/
+    container_name: make_node
+    restart: unless-stopped 
+    command: ros2 run make_pattern_node make
+    networks:
+      - ros
+
+  showpattern:
+    build: show_node/
+    container_name: show_node
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Asia/Taipei
+    ports:
+      - 5656:3389
+    shm_size: "1gb"
+    restart: unless-stopped
+    networks:
+      - ros
+
+networks:
+  ros:
+    external: true
+    name: ros_pattern
